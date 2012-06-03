@@ -1,24 +1,37 @@
 using System;
+using System.Text;
 /*
-
+See RFC4255.
+ * RR type code is 44
+ * The RDATA for a SSHFP RR consists of an algorithm number, fingerprint
+   type and the fingerprint of the public host key.
+ * algo/fp type are 1 byte, fingerprint is SHA-1 (per RFC) which is 20 bytes 
  */
 
 namespace Heijden.DNS
 {
 	public class RecordSSHFP : Record
 	{
-		public byte[] RDATA;
-
+        public string SSHFPrecord;
+        public int ALGORITHM;
+        public int DIGESTTYPE;
+        byte[] fingerprint = new byte[20];
 		public RecordSSHFP(RecordReader rr)
-		{
-			// re-read length
-			ushort RDLENGTH = rr.ReadUInt16(-2);
-			RDATA = rr.ReadBytes(RDLENGTH);
+		{         
+            ALGORITHM = rr.ReadByte();
+            DIGESTTYPE = rr.ReadByte();
+            fingerprint = rr.ReadBytes(20);
 		}
 
 		public override string ToString()
 		{
-			return string.Format("not-used");
+            StringBuilder sb = new StringBuilder();
+            for (int intI = 0; intI < fingerprint.Length; intI++)
+                sb.AppendFormat("{0:x2}", fingerprint[intI]);
+            return string.Format("{0} {1} {2}",
+                ALGORITHM,
+                DIGESTTYPE,
+                sb.ToString());
 		}
 
 	}

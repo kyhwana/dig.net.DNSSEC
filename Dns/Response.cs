@@ -244,7 +244,20 @@ namespace Heijden.DNS
 				return list.ToArray();
 			}
 		}
-
+        public RecordSSHFP[] RecordsSSHFP
+        {
+            get
+            {
+                List<RecordSSHFP> list = new List<RecordSSHFP>();
+                foreach (AnswerRR answerRR in this.Answers)
+                {
+                    RecordSSHFP record = answerRR.RECORD as RecordSSHFP;
+                    if (record != null)
+                        list.Add(record);
+                }
+                return list.ToArray();
+            }
+        }
 		public RR[] RecordsRR
 		{
 			get
