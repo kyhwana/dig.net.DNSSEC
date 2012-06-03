@@ -258,6 +258,62 @@ namespace Heijden.DNS
                 return list.ToArray();
             }
         }
+        public RecordDNSKEY[] RecordsDNSKEY
+        {
+            get
+            {
+                List<RecordDNSKEY> list = new List<RecordDNSKEY>();
+                foreach (AnswerRR answerRR in this.Answers)
+                {
+                    RecordDNSKEY record = answerRR.RECORD as RecordDNSKEY;
+                    if (record != null)
+                        list.Add(record);
+                }
+                return list.ToArray();
+            }
+        }
+        public RecordRRSIG[] RecordsRRSIG
+        {
+            get
+            {
+                List<RecordRRSIG> list = new List<RecordRRSIG>();
+                foreach (AnswerRR answerRR in this.Answers)
+                {
+                    RecordRRSIG record = answerRR.RECORD as RecordRRSIG;
+                    if (record != null)
+                        list.Add(record);
+                }
+                return list.ToArray();
+            }
+        }
+        public RecordNSEC[] RecordsNSEC
+        {
+            get
+            {
+                List<RecordNSEC> list = new List<RecordNSEC>();
+                foreach (AnswerRR answerRR in this.Answers)
+                {
+                    RecordNSEC record = answerRR.RECORD as RecordNSEC;
+                    if (record != null)
+                        list.Add(record);
+                }
+                return list.ToArray();
+            }
+        }
+        public RecordDS[] RecordsDS
+        {
+            get
+            {
+                List<RecordDS> list = new List<RecordDS>();
+                foreach (AnswerRR answerRR in this.Answers)
+                {
+                    RecordDS record = answerRR.RECORD as RecordDS;
+                    if (record != null)
+                        list.Add(record);
+                }
+                return list.ToArray();
+            }
+        }
 		public RR[] RecordsRR
 		{
 			get
