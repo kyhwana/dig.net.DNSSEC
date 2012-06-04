@@ -80,8 +80,9 @@ namespace Heijden.DNS
             SignatureInception = rr.ReadUInt32();
             KeyTag = rr.ReadUInt16();
             SignersName = rr.ReadDomainName();
-            Signature = rr.ReadString();
-            SignatureBase64 = System.Convert.FromBase64CharArray(Signature.ToCharArray(),0,Signature.Length);
+            //Signature = rr.ReadString();
+            SignatureBase64 = rr.ReadBytes(256);
+            
             /* y u use unsigned 32bit unix/epoc time!*/
 
 
@@ -122,10 +123,12 @@ namespace Heijden.DNS
 
             //string SignatureExpirationString = SignatureExpirationepoc.Year + SignatureExpirationepoc.Month + SignatureExpirationepoc.Day + SignatureExpirationepoc.TimeOfDay;
             //string SignatureInceptionString = SignatureInceptionepoc.Year + SignatureInceptionepoc.Month + SignatureInceptionepoc.Day + SignatureInceptionepoc.TimeOfDay;
-            StringBuilder SignatureString = new StringBuilder();
+           StringBuilder SignatureString = new StringBuilder();
             for (int intI = 0; intI < SignatureBase64.Length; intI++)
                 SignatureString.AppendFormat("{0:x2}", SignatureBase64[intI]);
-
+                //SignatureString.Append(System.Net.IPAddress.NetworkToHostOrder(Signature[intI]));*/
+            //string SignatureStringBase64;
+           // SignatureStringBase64 = System.Convert.ToBase64String(SignatureString.
             return string.Format("{0} {1} {2} {3} {4}{5}{6}{7} {8}{9}{10}{11} {12} {13} {14}",
                 TypeCovered,
                 Algorithm,
@@ -141,7 +144,7 @@ namespace Heijden.DNS
                 SignatureInceptionepoc.Hour,
                 KeyTag,
                 SignersName,
-                string.Format("\"{0}\"", Signature)
+                SignatureString
                 );
             
 		}
