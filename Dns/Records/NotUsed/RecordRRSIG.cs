@@ -35,6 +35,7 @@ namespace Heijden.DNS
 	public class RecordRRSIG : Record
 	{
         public UInt16 TypeCovered;
+        public QType TypeCoveredString;
         public byte Algorithm;
         public byte Labels;
         public uint OriginalTTL;
@@ -73,6 +74,8 @@ namespace Heijden.DNS
             SignersName = rr.ReadString();
             Signature = rr.ReadString();*/
             TypeCovered = rr.ReadUInt16();
+            //TypeCoveredString = TypeCovered.ToString;
+            TypeCoveredString = (QType)TypeCovered;
             Algorithm = rr.ReadByte();
             Labels = rr.ReadByte();
             OriginalTTL = rr.ReadUInt32();
@@ -128,9 +131,9 @@ namespace Heijden.DNS
                 SignatureString.AppendFormat("{0:x2}", SignatureBase64[intI]);
                 //SignatureString.Append(System.Net.IPAddress.NetworkToHostOrder(Signature[intI]));*/
             //string SignatureStringBase64;
-           // SignatureStringBase64 = System.Convert.ToBase64String(SignatureString.
+            //SignatureStringBase64 = System.Convert.FromBase64String(SignatureString.ToString());
             return string.Format("{0} {1} {2} {3} {4}{5}{6}{7} {8}{9}{10}{11} {12} {13} {14}",
-                TypeCovered,
+                TypeCoveredString,
                 Algorithm,
                 Labels,
                 OriginalTTL,
